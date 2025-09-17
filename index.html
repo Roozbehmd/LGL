@@ -2,36 +2,143 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Spline – Runtime (Scroll Anywhere)</title>
-  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VESSL — Exploded View</title>
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.57/build/spline-viewer.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    html,body{height:100%;margin:0} body{display:flex;font-family:system-ui,Arial,sans-serif}
-    .left{width:40vw;min-width:280px;padding:20px;overflow:auto;border-right:1px solid #eee}
-    .right{flex:1;position:relative;overflow:hidden}
-    spline-viewer{position:absolute;inset:0;width:100%;height:100%;display:block}
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111213;
+      --text: #e7e7e7;
+      --muted: #a7a7a7;
+      --accent: #c7773a;
+      --border: #1e1f22;
+    }
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Oswald', sans-serif;
+    }
+
+    /* Top bar */
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      height: 64px;
+      display: flex; align-items: center;
+      padding: 0 24px;
+      background: #0c0c0c;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+    }
+    .dot { color: var(--accent); }
+
+    /* Grid layout */
+    .shell {
+      display: grid;
+      grid-template-columns: 1fr 2fr; /* 1/3 text, 2/3 viewer */
+      min-height: calc(100vh - 64px);
+    }
+
+    /* Left content */
+    .content {
+      padding: 6vh 3vw;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8vh;
+      justify-content: center;
+    }
+    h1, h2 {
+      margin: 0;
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw, 4rem);
+      color: var(--accent);
+    }
+    h2 {
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+      color: var(--text);
+    }
+    p {
+      margin: 0;
+      font-size: clamp(1rem, 1.5vw, 1.5rem);
+      color: var(--muted);
+    }
+
+    /* Right: viewer */
+    .viewer-wrap { background: #0b0b0c; }
+    .viewer-sticky {
+      position: sticky; top: 0;
+      height: 100vh;
+      border-left: 1px solid var(--border);
+    }
+    spline-viewer {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+    }
+
+    /* Mobile: stack */
+    @media (max-width: 900px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+      .content {
+        border-right: none;
+        padding: 5vh 6vw;
+      }
+      .viewer-sticky {
+        position: relative;
+        height: 60vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="left">
-    <h1>Content</h1>
-    <p>Now the scene can listen to scroll even if you’re not directly over it.</p>
-  </div>
+  <header class="topbar">
+    VESSL<span class="dot">•</span> By EvrAir
+  </header>
 
-  <div class="right" id="pane">
-    <!-- Replace url with your .splinecode link -->
-    <spline-viewer
-      id="viewer"
-      url="https://prod.spline.design/PUT-YOUR-ID-HERE/scene.splinecode"
-      events-target="document"
-      loading-anim="spinner">
-    </spline-viewer>
-  </div>
+  <main class="shell">
+    <!-- LEFT TEXT -->
+    <div class="content">
+      <section>
+        <h1>Brutalist Design</h1>
+        <p>Diamond geometry. Monolithic presence.</p>
+      </section>
+      <section>
+        <h2>Universal Inserts</h2>
+        <p>Any size vial. One precision case.</p>
+      </section>
+      <section>
+        <h2>Engineered Details</h2>
+        <p>Black hex screws. Copper finish. Visible seam.</p>
+      </section>
+    </div>
 
-  <script>
-    // Keep page from scrolling away while scrubbing in the right pane
-    const pane = document.getElementById('pane');
-    pane.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-  </script>
+    <!-- RIGHT VIEWER -->
+    <aside class="viewer-wrap">
+      <div class="viewer-sticky">
+        <spline-viewer
+          url="https://prod.spline.design/JRBiFK52913kDJgd/scene.splinecode"
+          events-target="document"
+          loading-anim="spinner"
+          style="outline: none;">
+        </spline-viewer>
+      </div>
+    </aside>
+  </main>
 </body>
 </html>
