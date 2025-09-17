@@ -12,7 +12,7 @@
       --accent:#c7773a; --border:#1e1f22;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Oswald',sans-serif}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Oswald',sans-serif;scroll-behavior:smooth}
 
     .topbar{
       position:sticky; top:0; z-index:20;
@@ -60,15 +60,17 @@
       .shell{grid-template-columns:1fr}
       .content{
         border-right:none;
-        /* make sure content isn't hidden behind the fixed viewer */
-        padding:5vh 6vw 55vh; /* bottom pad ~= viewer height + a bit */
+        padding:5vh 6vw 55vh; /* bottom pad so text not hidden */
       }
       .spacer{display:none}
 
-      /* viewer fixed to bottom 50% */
       .viewer-fixed{
         position:fixed; left:0; right:0; bottom:0; top:auto;
-        width:100vw; height:50vh; border-left:none; border-top:1px solid var(--border);
+        width:100vw; height:50vh;
+        border-left:none; border-top:1px solid var(--border);
+      }
+      spline-viewer{
+        pointer-events:none; /* ✅ critical fix for mobile scroll */
       }
       .section{min-height:60vh}
       .section h1,.section h2{top:10vh}
